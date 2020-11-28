@@ -30,12 +30,12 @@
             _count: 10
           }
           
-        }).then( function(fhirObservations) {
+        }).then( function(fhirObservationGlucose) {
 
           var glucose_dates = [];
           var glucose_values = [];            
           
-          (fhirObservations.data.entry || []).forEach( function(glucose) {
+          (fhirObservationGlucose.data.entry || []).forEach( function(glucose) {
             var date = glucose.resource.effectiveDateTime;
             var value = glucose.resource.valueQuantity && glucose.resource.valueQuantity.value;
             if (date && value && glucose_dates.indexOf(date) == -1) {
@@ -78,12 +78,12 @@
             _count: 10
           }
           
-        }).then( function(fhirObservations) {
+        }).then( function(fhirObservationA1c) {
 
           var a1c_dates = [];
           var a1c_values = [];            
           
-          (fhirObservations.data.entry || []).forEach( function(a1c) {
+          (fhirObservationA1c.data.entry || []).forEach( function(a1c) {
             var date = a1c.resource.effectiveDateTime;
             var value = a1c.resource.valueQuantity && a1c.resource.valueQuantity.value;
             if (date && value && a1c_dates.indexOf(date) == -1) {
