@@ -14,12 +14,13 @@
     
     <script>
       
-      FHIR.oauth2.ready( getGlucosedata, getA1cdata, showError );
+      // FHIR.oauth2.ready( getGlucosedata, getA1cdata, showError );
+      FHIR.oauth2.ready( getA1cdata, showError );
       
       var statusDiv =  document.getElementById("status");
       var a1cChartDiv = document.getElementById("a1c-chart");
       var glucoseChartDiv = document.getElementById("glucose-chart");
-      
+      /*
       function getGlucosedata(smart) {
         
         smart.patient.api.search({
@@ -67,7 +68,7 @@
         });
         
       }
-
+      */
       function getA1cdata(smart) {
         
         smart.patient.api.search({
