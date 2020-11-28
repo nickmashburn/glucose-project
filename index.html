@@ -43,7 +43,7 @@
           });
           
           if (values.length === 0)
-            return statusDiv.innerHTML = "No A1C observations found.";
+            return statusDiv.innerHTML = "No Blood Glucose observations found.";
           
           statusDiv.style.display = "none";
 
@@ -54,9 +54,9 @@
               type: "scatter"
             }],
             layout: {
-              title: "A1C Lab Values",
+              title: "Blood Glucose Lab Values",
               xaxis: {type: "date", tickformat: "%b %y"},
-              yaxis: {range: [0, 10]}
+              yaxis: {range: [0, 200]}
             },
             config: {
               displayModeBar: false
