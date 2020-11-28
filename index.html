@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    
+  <title>A1C History</title>
+   <script src="fhir-client.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+
+    <h1 id="status">Retrieving A1C Data...</h1>
+    <div id="chart" style="width:600px;height:400px;"></div>
+    
+    <script>
+      
+      FHIR.oauth2.ready( getA1Cdata, showError );
+      
+      var statusDiv =  document.getElementById("status");
+      var chartDiv = document.getElementById("chart");
+      
+      function getA1Cdata(smart) {
+        
+        smart.patient.api.search({
+          type: "Observation", 
+          query: {
+            code: "4548-4", 
+            "_sort:desc": "date", 
+            _count: 10
+          }
+          
+        }).then( function(fhirObservations) {
+
+          var dates = [];
+          var values = [];            
+          
+          (fhirObservations.data.entry || []).forEach( function(a1c) {
+            var date = a1c.resource.effectiveDateTime;
+            var value = a1c.resource.valueQuantity && a1c.resource.valueQuantity.value;
+            if (date && value && dates.indexOf(date) == -1) {
+              dates.push(date);
+              values.push(Math.round(value*10)/10);
+            };
+          });
+          
+          if (values.length === 0)
+            return statusDiv.innerHTML = "No A1C observations found.";
+          
+          statusDiv.style.display = "none";
+
+          Plotly.newPlot(chartDiv, {
+            data: [{
+              x: dates,
+              y: values,
+              type: "scatter"
+            }],
+            layout: {
+              title: "A1C Lab Values",
+              xaxis: {type: "date", tickformat: "%b %y"},
+              yaxis: {range: [0, 10]}
+            },
+            config: {
+              displayModeBar: false
+            }
+          });          
+        });
+        
+      }
+      
+      function showError(error) {
+        return statusDiv.innerHTML = "An error occurred connecting to the EHR";
+      }
+                            
+    </script>
+
+  </body>
+</html>
+
+
