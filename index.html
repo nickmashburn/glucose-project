@@ -9,14 +9,16 @@
   <body>
 
     <h1 id="status">Retrieving Glucose Data...</h1>
-    <div id="chart" style="width:800px;height:400px;"></div>
+    <div id="glucose-chart" style="width:800px;height:400px;"></div>
+    <div id="a1c-chart" style="width:800px;height:400px;"></div>
     
     <script>
       
-      FHIR.oauth2.ready( getGlucosedata, showError );
+      FHIR.oauth2.ready( getGlucosedata, getA1cdata, showError );
       
       var statusDiv =  document.getElementById("status");
-      var chartDiv = document.getElementById("chart");
+      var a1cChartDiv = document.getElementById("a1c-chart");
+      var glucoseChartDiv = document.getElementById("glucose-chart");
       
       function getGlucosedata(smart) {
         
@@ -30,15 +32,15 @@
           
         }).then( function(fhirObservations) {
 
-          var dates = [];
-          var values = [];            
+          var glucose_dates = [];
+          var glucose_values = [];            
           
           (fhirObservations.data.entry || []).forEach( function(glucose) {
             var date = glucose.resource.effectiveDateTime;
             var value = glucose.resource.valueQuantity && glucose.resource.valueQuantity.value;
-            if (date && value && dates.indexOf(date) == -1) {
-              dates.push(date);
-              values.push(Math.round(value*10)/10);
+            if (date && value && glucose_dates.indexOf(date) == -1) {
+              glucose_dates.push(date);
+              glucose_values.push(Math.round(value*10)/10);
             };
           });
           
@@ -47,11 +49,11 @@
           
           statusDiv.style.display = "none";
 
-          Plotly.newPlot(chartDiv, {
+          Plotly.newPlot(glucoseChartDiv, {
             data: [{
-              x: dates,
-              y: values,
-              type: "bar"
+              x: glucose_dates,
+              y: glucose_values,
+              type: "scatter"
             }],
             layout: {
               title: "Blood Glucose Lab Values",
@@ -65,10 +67,59 @@
         });
         
       }
+
+      function getA1cdata(smart) {
+        
+        smart.patient.api.search({
+          type: "Observation", 
+          query: {
+            code: "4548-4", 
+            "_sort:desc": "date", 
+            _count: 10
+          }
+          
+        }).then( function(fhirObservations) {
+
+          var a1c_dates = [];
+          var a1c_values = [];            
+          
+          (fhirObservations.data.entry || []).forEach( function(a1c) {
+            var date = a1c.resource.effectiveDateTime;
+            var value = a1c.resource.valueQuantity && a1c.resource.valueQuantity.value;
+            if (date && value && a1c_dates.indexOf(date) == -1) {
+              a1c_dates.push(date);
+              a1c_values.push(Math.round(value*10)/10);
+            };
+          });
+          
+          if (values.length === 0)
+            return statusDiv.innerHTML = "No A1c observations found.";
+          
+          statusDiv.style.display = "none";
+
+          Plotly.newPlot(a1cChartDiv, {
+            data: [{
+              x: a1c_dates,
+              y: a1c_values,
+              type: "scatter"
+            }],
+            layout: {
+              title: "A1c Lab Values",
+              xaxis: {type: "date", tickformat: "%b %y"},
+              yaxis: {range: [0, 10]}
+            },
+            config: {
+              displayModeBar: false
+            }
+          });          
+        });
+        
+      }
       
       function showError(error) {
         return statusDiv.innerHTML = "An error occurred connecting to the EHR";
       }
+           
                             
     </script>
 
