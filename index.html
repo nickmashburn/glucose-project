@@ -8,17 +8,17 @@
   </head>
   <body>
 
-    <h1 id="status">Retrieving A1C Data...</h1>
+    <h1 id="status">Retrieving Glucose Data...</h1>
     <div id="chart" style="width:800px;height:400px;"></div>
     
     <script>
       
-      FHIR.oauth2.ready( getA1Cdata, showError );
+      FHIR.oauth2.ready( getGlucosedata, showError );
       
       var statusDiv =  document.getElementById("status");
       var chartDiv = document.getElementById("chart");
       
-      function getA1Cdata(smart) {
+      function getGlucosedata(smart) {
         
         smart.patient.api.search({
           type: "Observation", 
@@ -33,9 +33,9 @@
           var dates = [];
           var values = [];            
           
-          (fhirObservations.data.entry || []).forEach( function(a1c) {
-            var date = a1c.resource.effectiveDateTime;
-            var value = a1c.resource.valueQuantity && a1c.resource.valueQuantity.value;
+          (fhirObservations.data.entry || []).forEach( function(glucose) {
+            var date = glucose.resource.effectiveDateTime;
+            var value = glucose.resource.valueQuantity && glucose.resource.valueQuantity.value;
             if (date && value && dates.indexOf(date) == -1) {
               dates.push(date);
               values.push(Math.round(value*10)/10);
