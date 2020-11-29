@@ -31,12 +31,12 @@
             _count: 10
           }
           
-        }).then( function(fhirObservationGlucose) {
+        }).then( function(fhirObservations) {
 
           var dates = [];
           var values = [];            
           
-          (fhirObservationGlucose.data.entry || []).forEach( function(glucose) {
+          (fhirObservations.data.entry || []).forEach( function(glucose) {
             var date = glucose.resource.effectiveDateTime;
             var value = glucose.resource.valueQuantity && glucose.resource.valueQuantity.value;
             if (date && value && glucose_dates.indexOf(date) == -1) {
