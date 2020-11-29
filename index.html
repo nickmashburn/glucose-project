@@ -39,7 +39,7 @@
           (fhirObservations.data.entry || []).forEach( function(glucose) {
             var date = glucose.resource.effectiveDateTime;
             var value = glucose.resource.valueQuantity && glucose.resource.valueQuantity.value;
-            if (date && value && glucose_dates.indexOf(date) == -1) {
+            if (date && value && dates.indexOf(date) == -1) {
               dates.push(date);
               values.push(Math.round(value*10)/10);
             };
