@@ -9,15 +9,16 @@
   <body>
 
     <h1 id="status">Retrieving Glucose Data...</h1>
-    <div id="glucose-chart" style="width:800px;height:400px;">Is this working?</div>
+    <div id="glucose-chart" style="width:800px;height:400px;"></div>
     <!-- <div id="a1c-chart" style="width:800px;height:400px;">I hope this one is!</div> -->
     
     <script>
       
-      FHIR.oauth2.ready( getGlucosedata, getA1cdata, showError );
+      // FHIR.oauth2.ready( getGlucosedata, getA1cdata, showError );
+      FHIR.oauth2.ready( getGlucosedata, showError );
       
       var statusDiv =  document.getElementById("status");
-      var a1cChartDiv = document.getElementById("a1c-chart");
+      // var a1cChartDiv = document.getElementById("a1c-chart");
       var glucoseChartDiv = document.getElementById("glucose-chart");
       
       function getGlucosedata(smart) {
