@@ -17,7 +17,6 @@
       FHIR.oauth2.ready( getGlucosedata, showError );
       
       var statusDiv =  document.getElementById("status");
-      var a1cChartDiv = document.getElementById("a1c-chart");
       var glucoseChartDiv = document.getElementById("glucose-chart");
       
       function getGlucosedata(smart) {
@@ -68,12 +67,11 @@
         
       }
 
-           
                             
     </script>
     <script>
-      
-      FHIR.oauth2.ready( getGlucosedata, showError );
+
+      FHIR.oauth2.ready( getA1cdata, showError );
       
       var statusDiv =  document.getElementById("status");
       var a1cChartDiv = document.getElementById("a1c-chart");
