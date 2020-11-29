@@ -33,15 +33,15 @@
           
         }).then( function(fhirObservationGlucose) {
 
-          var glucose_dates = [];
-          var glucose_values = [];            
+          var dates = [];
+          var values = [];            
           
           (fhirObservationGlucose.data.entry || []).forEach( function(glucose) {
             var date = glucose.resource.effectiveDateTime;
             var value = glucose.resource.valueQuantity && glucose.resource.valueQuantity.value;
             if (date && value && glucose_dates.indexOf(date) == -1) {
-              glucose_dates.push(date);
-              glucose_values.push(Math.round(value*10)/10);
+              dates.push(date);
+              values.push(Math.round(value*10)/10);
             };
           });
           
@@ -52,8 +52,8 @@
 
           Plotly.newPlot(glucoseChartDiv, {
             data: [{
-              x: glucose_dates,
-              y: glucose_values,
+              x: dates,
+              y: values,
               type: "scatter"
             }],
             layout: {
