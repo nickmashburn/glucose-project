@@ -22,12 +22,12 @@
     </ul>
     <p>Have a concern about your patient's wellbeing? Reach out to the XYZ Hotline to get them the help they need.&nbsp;</p>
 
-    <h1 id="status">Retrieving Glucose Data...</h1>
+    <h1 id="status">Retrieving A1C Data...</h1>
     <div id="a1c-chart" style="width:800px;height:400px;"></div>
     
     <script>
       
-      /*
+      
       FHIR.oauth2.ready( getA1cdata, showError );
       
       var statusDiv =  document.getElementById("status");
@@ -38,7 +38,7 @@
         smart.patient.api.search({
           type: "Observation", 
           query: {
-            code: "4548-4", 
+            code: "2339-0", 
             "_sort:desc": "date", 
             _count: 10
           }
@@ -80,7 +80,7 @@
         });
         
       }
-      */
+      /*
       FHIR.oauth2.ready( getGlucosedata, showError );
       
       var statusDiv =  document.getElementById("status");
@@ -133,7 +133,7 @@
         });
         
       }
-      
+      */
       function showError(error) {
         return statusDiv.innerHTML = "An error occurred connecting to the EHR";
       }
