@@ -78,17 +78,17 @@
             _count: 10
           }
           
-        }).then( function(fhirObservationA1c) {
+        }).then( function(fhirObservations) {
 
-          var a1c_dates = [];
-          var a1c_values = [];            
+          var dates = [];
+          var values = [];            
           
-          (fhirObservationA1c.data.entry || []).forEach( function(a1c) {
+          (fhirObservations.data.entry || []).forEach( function(a1c) {
             var date = a1c.resource.effectiveDateTime;
             var value = a1c.resource.valueQuantity && a1c.resource.valueQuantity.value;
-            if (date && value && a1c_dates.indexOf(date) == -1) {
-              a1c_dates.push(date);
-              a1c_values.push(Math.round(value*10)/10);
+            if (date && value && dates.indexOf(date) == -1) {
+              dates.push(date);
+              values.push(Math.round(value*10)/10);
             };
           });
           
@@ -99,8 +99,8 @@
 
           Plotly.newPlot(a1cChartDiv, {
             data: [{
-              x: a1c_dates,
-              y: a1c_values,
+              x: dates,
+              y: values,
               type: "scatter"
             }],
             layout: {
