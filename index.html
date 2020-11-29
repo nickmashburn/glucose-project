@@ -14,7 +14,7 @@
     
     <script>
       
-      FHIR.oauth2.ready( getGlucosedata, getA1cdata, showError );
+      FHIR.oauth2.ready( getGlucosedata, showError );
       
       var statusDiv =  document.getElementById("status");
       var a1cChartDiv = document.getElementById("a1c-chart");
@@ -68,6 +68,16 @@
         
       }
 
+           
+                            
+    </script>
+    <script>
+      
+      FHIR.oauth2.ready( getGlucosedata, showError );
+      
+      var statusDiv =  document.getElementById("status");
+      var a1cChartDiv = document.getElementById("a1c-chart");
+
       function getA1cdata(smart) {
         
         smart.patient.api.search({
@@ -119,8 +129,6 @@
       function showError(error) {
         return statusDiv.innerHTML = "An error occurred connecting to the EHR";
       }
-           
-                            
     </script>
 
   </body>
