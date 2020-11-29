@@ -22,25 +22,25 @@
     </ul>
     <p>Have a concern about your patient's wellbeing? Reach out to the XYZ Hotline to get them the help they need.&nbsp;</p>
 
-    <h1 id="status">Retrieving A1C Data...</h1>
+    <h1 id="status">Looking for HbA1C Observations...</h1>
     <div id="a1c-chart" style="width:800px;height:400px;"></div>
     
     <script>
       
       
-      FHIR.oauth2.ready( getA1cdata, showError );
+      FHIR.oauth2.ready( getHbA1cdata, showError );
       
       var statusDiv =  document.getElementById("status");
       var a1cChartDiv = document.getElementById("a1c-chart");
 
-      function getA1cdata(smart) {
+      function getHbA1cdata(smart) {
         
         smart.patient.api.search({
           type: "Observation", 
           query: {
-            code: "2339-0", 
+            code: "4548-4", 
             "_sort:desc": "date", 
-            _count: 10
+            _count: 15
           }
           
         }).then( function(fhirObservations) {
@@ -48,9 +48,9 @@
           var dates = [];
           var values = [];            
           
-          (fhirObservations.data.entry || []).forEach( function(a1c) {
-            var date = a1c.resource.effectiveDateTime;
-            var value = a1c.resource.valueQuantity && a1c.resource.valueQuantity.value;
+          (fhirObservations.data.entry || []).forEach( function(hba1c) {
+            var date = hba1c.resource.effectiveDateTime;
+            var value = hba1c.resource.valueQuantity && hba1c.resource.valueQuantity.value;
             if (date && value && dates.indexOf(date) == -1) {
               dates.push(date);
               values.push(Math.round(value*10)/10);
@@ -58,7 +58,7 @@
           });
           
           if (values.length === 0)
-            return statusDiv.innerHTML = "No A1c observations found.";
+            return statusDiv.innerHTML = "No A1c Labs found.";
           
           statusDiv.style.display = "none";
 
@@ -69,9 +69,9 @@
               type: "scatter"
             }],
             layout: {
-              title: "Glucose Lab Values",
+              title: "Your Patient's A1C (HbA1c) Labs",
               xaxis: {type: "date", tickformat: "%b %y"},
-              yaxis: {range: [0, 250]}
+              yaxis: {range: [0, 10]}
             },
             config: {
               displayModeBar: false
