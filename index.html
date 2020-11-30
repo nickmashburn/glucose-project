@@ -104,60 +104,7 @@
         });
         
       }
-      /*
-      FHIR.oauth2.ready( getGlucosedata, showError );
       
-      var statusDiv =  document.getElementById("status");
-      var glucoseChartDiv = document.getElementById("glucose-chart");
-      
-      function getGlucosedata(smart) {
-        
-        smart.patient.api.search({
-          type: "Observation", 
-          query: {
-            code: "2339-0", 
-            "_sort:desc": "date", 
-            _count: 10
-          }
-          
-        }).then( function(fhirObservations) {
-
-          var dates = [];
-          var values = [];            
-          
-          (fhirObservations.data.entry || []).forEach( function(glucose) {
-            var date = glucose.resource.effectiveDateTime;
-            var value = glucose.resource.valueQuantity && glucose.resource.valueQuantity.value;
-            if (date && value && dates.indexOf(date) == -1) {
-              dates.push(date);
-              values.push(Math.round(value*10)/10);
-            };
-          });
-          
-          if (values.length === 0)
-            return statusDiv.innerHTML = "No Blood Glucose observations found.";
-          
-          statusDiv.style.display = "none";
-
-          Plotly.newPlot(glucoseChartDiv, {
-            data: [{
-              x: dates,
-              y: values,
-              type: "scatter"
-            }],
-            layout: {
-              title: "Blood Glucose Lab Values",
-              xaxis: {type: "date", tickformat: "%b %y"},
-              yaxis: {range: [0, 200]}
-            },
-            config: {
-              displayModeBar: false
-            }
-          });          
-        });
-        
-      }
-      */
       function showError(error) {
         return statusDiv.innerHTML = "An error occurred connecting to the EHR";
       }
